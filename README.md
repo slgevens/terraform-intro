@@ -1,4 +1,4 @@
-# This repo will be used for terraform intro 
+# This repo will be used for terraform intro interview tests
 
 ## Exercice using `AWS` + `Terraform`
 
