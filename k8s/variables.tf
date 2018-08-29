@@ -42,10 +42,10 @@ variable "vpc_cidr" {
   default     = "172.10.0.0/16"
 }
 
-variable "vpc_id" {
-  description = "ID for VPC"
-  default     = "tf_k8s_vpc"
-}
+# variable "vpc_id" {
+#   description = "ID for VPC"
+#   default     = "${aws_vpc.tf_k8s_vpc.0.id}"
+# }
 
 variable "private_subnet_cidr" {
   description = "CIDR for the private subnet"

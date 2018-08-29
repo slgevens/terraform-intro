@@ -1,0 +1,7 @@
+terraform.tfvars
+*~
+*.exclude
+.terraform
+secret.tf
+.DS_Store
+*.retry

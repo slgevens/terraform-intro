@@ -5,19 +5,18 @@ resource "aws_instance" "stretch" {
   security_groups = ["${aws_security_group.tf_k8s_sg_subnet.name}", "${aws_security_group.tf_k8s_sg_default.name}"]
   count           = "${length(var.hostname)}"
   subnet_id       = "${aws_subnet.tf_k8s_subnet.id}"
-  depends_on      = ["data.aws_vpc.tf_k8s_vpc", "aws_subnet.tf_k8s_subnet", "aws_security_group.tf_k8s_sg_subnet", "aws_security_group.tf_k8s_sg_default"]
-
-  # availability_zone = "${var.region}"
-  # vpc_security_group_ids = ["${aws_security_group.stretch.id}"]
+  depends_on      = ["aws_vpc.tf_k8s_vpc", "aws_subnet.tf_k8s_subnet", "aws_security_group.tf_k8s_sg_subnet", "aws_security_group.tf_k8s_sg_default"]
 
   tags = {
     Name = "${var.hostname[count.index]}"
   }
+
   connection {
     type        = "ssh"
     user        = "admin"
     private_key = "${file(var.private_key_path)}"
   }
+
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update",
