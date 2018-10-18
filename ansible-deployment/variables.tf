@@ -1,11 +1,11 @@
 ## AMIs debian stretch
 variable "aws_amis_stretch" {
   description = "Debian stretch"
-  default     = "ami-05cdaf7e7b6c76277"
+  default     = "ami-0c0d066cb8b155cbe"
 }
 
 ## AMIs debian jessie
-variable "aws_amis_ansible" {
+variable "aws_amis_jessie" {
   description = "Debian stretch"
   default     = "ami-abff2ac4"
 }
@@ -31,6 +31,15 @@ variable "public_key_path" {
   type        = "string"
   description = "ssh key macbook"
   default     = "/Users/evenssolignac/.ssh/id_rsa.pub"
+}
+
+variable "hostname" {
+  description = "Define hostnames"
+
+  default = {
+    "0" = "ansible1"
+    "1" = "ansible2"
+  }
 }
 
 # Secrity groups for HTTP server

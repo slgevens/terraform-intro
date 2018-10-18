@@ -5,5 +5,3 @@ terraform.tfvars
 secret.tf
 .DS_Store
 *.retry
-*.tfstate
-*.tfstate.*

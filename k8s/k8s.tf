@@ -1,11 +1,12 @@
 resource "aws_instance" "stretch" {
-  ami             = "${var.aws_amis_stretch}"
-  instance_type   = "t2.medium"
-  key_name        = "${var.key_name}"
-  security_groups = ["${aws_security_group.tf_k8s_sg_subnet.name}", "${aws_security_group.tf_k8s_sg_default.name}"]
-  count           = "${length(var.hostname)}"
-  subnet_id       = "${aws_subnet.tf_k8s_subnet.id}"
-  depends_on      = ["aws_vpc.tf_k8s_vpc", "aws_subnet.tf_k8s_subnet", "aws_security_group.tf_k8s_sg_subnet", "aws_security_group.tf_k8s_sg_default"]
+  ami                         = "${var.aws_amis_stretch}"
+  instance_type               = "t2.medium"
+  key_name                    = "${var.key_name}"
+  count                       = "${length(var.hostname)}"
+  subnet_id                   = "${aws_subnet.tf_k8s_pub_subnet.id}"
+  associate_public_ip_address = true
+  source_dest_check           = false
+  vpc_security_group_ids      = ["${aws_security_group.tf_k8s_sg_subnet.id}", "${aws_security_group.tf_k8s_sg_default.id}"]
 
   tags = {
     Name = "${var.hostname[count.index]}"
@@ -20,7 +21,7 @@ resource "aws_instance" "stretch" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update",
-      "sudo apt-get -y install rsync",
+      "sudo apt-get -y install rsync emacs aptitude",
       "sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common",
       "sudo curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -",
       "sudo apt-key fingerprint 0EBFCD88",

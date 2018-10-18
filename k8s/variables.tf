@@ -6,7 +6,7 @@ variable "count" {
 ## AMIs debian stretch
 variable "aws_amis_stretch" {
   description = "Debian stretch"
-  default     = "ami-05cdaf7e7b6c76277"
+  default     = "ami-0c0d066cb8b155cbe"
 }
 
 ## SSH key file and configuration
@@ -37,19 +37,24 @@ variable "hostname" {
   }
 }
 
-variable "vpc_cidr" {
-  description = "CIDR for the VPC"
-  default     = "172.10.0.0/16"
+resource "aws_key_pair" "auth" {
+  key_name   = "${var.key_name}"
+  public_key = "${file(var.public_key_path)}"
 }
 
-# variable "vpc_id" {
-#   description = "ID for VPC"
-#   default     = "${aws_vpc.tf_k8s_vpc.0.id}"
-# }
+variable "vpc_cidr" {
+  description = "CIDR for the VPC"
+  default     = "10.0.0.0/16"
+}
 
-variable "private_subnet_cidr" {
+variable "public_cidr" {
   description = "CIDR for the private subnet"
-  default     = "172.10.1.0/24"
+  default     = "10.0.1.0/24"
+}
+
+variable "private_cidr" {
+  description = "CIDR for the private subnet"
+  default     = "10.0.2.0/24"
 }
 
 variable "instance_tenancy" {
