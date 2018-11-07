@@ -1,23 +1,30 @@
 # k8s deployment
 
-## VPC
-
-secrets
 ```console
-ln -s secret.tf vpc/secret.tf
+MBProEvensEPI:k8s evenssolignac$ terraform init
+MBProEvensEPI:k8s evenssolignac$ terraform plan -out 1~
+MBProEvensEPI:k8s evenssolignac$ terraform apply 1~
 ```
 
-Enter the `vpc` directory 
 ```console
-terraform init
-terraform plan -out vpc.retry
-terraform apply "vpc.retry"
+sudo kubeadm init --pod-network-cidr=10.0.1.0/24 # corresponding to the network you want pods to run on
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-Copy the output `k8s_vpc = vpc-xxxXXXXxxxxXX` in `variables.tf` where `vpc_id` variable is defined
-```terraform
-variable "vpc_id" {
-  description = "ID for VPC"
-  default     = "vpc-xxxXXXXxxxxXX"
-}
+either `flannel`
+```console
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+kubectl -n kube-system get deployment coredns -o yaml | \
+  sed 's/allowPrivilegeEscalation: false/allowPrivilegeEscalation: true/g' | \
+  kubectl apply -f -
+
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+```
+
+```console
+kubectl get pods --all-namespaces
 ```

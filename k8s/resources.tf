@@ -50,13 +50,32 @@ resource "aws_route_table" "tf_k8s_pub_rt" {
   }
 
   tags {
-    Name = "tf_k8s_subnet_rt"
+    Name = "tf_k8s_subnet_pub_rt"
+  }
+}
+
+resource "aws_route_table" "tf_k8s_priv_rt" {
+  vpc_id     = "${aws_vpc.tf_k8s_vpc.id}"
+  depends_on = ["aws_vpc.tf_k8s_vpc"]
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.tf_k8s_gw.id}"
+  }
+
+  tags {
+    Name = "tf_k8s_subnet_priv_rt"
   }
 }
 
 resource "aws_route_table_association" "tf_k8s_pub_rta" {
   subnet_id      = "${aws_subnet.tf_k8s_pub_subnet.id}"
   route_table_id = "${aws_route_table.tf_k8s_pub_rt.id}"
+  depends_on     = ["aws_vpc.tf_k8s_vpc"]
+}
+resource "aws_route_table_association" "tf_k8s_priv_rta" {
+  subnet_id      = "${aws_subnet.tf_k8s_priv_subnet.id}"
+  route_table_id = "${aws_route_table.tf_k8s_priv_rt.id}"
   depends_on     = ["aws_vpc.tf_k8s_vpc"]
 }
 
@@ -66,13 +85,28 @@ resource "aws_security_group" "tf_k8s_sg_subnet" {
   description = "k8s_sg_subnet"
   vpc_id      = "${aws_vpc.tf_k8s_vpc.id}"
 
+  tags {
+    Name = "tf_k8s_sg_subnet"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   ingress {
     from_port   = 80
     to_port     = 80
@@ -135,13 +169,28 @@ resource "aws_security_group" "tf_k8s_sg_default" {
   description = "k8s"
   vpc_id      = "${aws_vpc.tf_k8s_vpc.id}"
 
+  tags {
+    Name = "tf_k8s_sg_default"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   ingress {
     from_port   = 80
     to_port     = 80

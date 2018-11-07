@@ -31,6 +31,7 @@ resource "aws_instance" "stretch" {
       "sudo add-apt-repository \"deb [arch=amd64] http://apt.kubernetes.io/ kubernetes-xenial main\"",
       "sudo apt-get update && sudo apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl cri-tools ebtables kubernetes-cni socat",
       "sudo apt-mark hold kubelet kubeadm kubectl",
+      "sudo adduser admin docker"
     ]
   }
 }
