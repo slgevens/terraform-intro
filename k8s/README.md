@@ -16,13 +16,15 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 either `flannel`
 ```console
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
 
+eventually:
+```
 kubectl -n kube-system get deployment coredns -o yaml | \
   sed 's/allowPrivilegeEscalation: false/allowPrivilegeEscalation: true/g' | \
   kubectl apply -f -
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
-
 ```
 
 ```console
