@@ -3,6 +3,9 @@ resource "aws_instance" "jessie" {
   instance_type   = "t2.micro"
   key_name        = "${var.key_name}"
   security_groups = ["tf-icmp-http-ssh"]
+  tags = {
+    Name = "jessie ESC"
+  }
 }
 
 # print dns
