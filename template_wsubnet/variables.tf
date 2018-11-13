@@ -1,6 +1,6 @@
 ## Count of nodes
 variable "count" {
-  default = 2
+  default = 4
 }
 
 ## AMIs debian stretch
@@ -11,8 +11,8 @@ variable "aws_amis_stretch" {
 
 ## SSH key file and configuration
 variable "key_name" {
-  description = "tf_k8s_esc_key"
-  default     = "tf_k8s_esc"
+  description = "tf_template_wsubnet_esc_key"
+  default     = "tf_template_wsubnet_esc"
 }
 
 variable "public_key_path" {
@@ -32,8 +32,8 @@ variable "hostname" {
   description = "Define hostnames"
 
   default = {
-    "0" = "k8sa1"
-    "1" = "k8sb1"
+    "0" = "template_wsubneta1"
+    "1" = "template_wsubnetb1"
   }
 }
 

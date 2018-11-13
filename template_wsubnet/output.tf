@@ -1,4 +1,4 @@
 ## print dns
-output "address_stretch" {
+output "str" {
   value = "${aws_instance.stretch.*.public_dns}"
 }
