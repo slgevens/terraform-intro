@@ -1,8 +1,3 @@
-## Count of nodes
-variable "count" {
-  default = 4
-}
-
 ## AMIs debian stretch
 variable "aws_amis_stretch" {
   description = "Debian stretch"
@@ -27,13 +22,30 @@ variable "private_key_path" {
   default     = "/Users/evenssolignac/.ssh/id_rsa"
 }
 
-## Hostnames
+## Hostnames and count of nodes
 variable "hostname" {
   description = "Define hostnames"
 
   default = {
     "0" = "template_wsubneta1"
     "1" = "template_wsubnetb1"
+  }
+}
+## Hostnames and count of nodes
+variable "hostname_private" {
+  description = "Define hostnames"
+
+  default = {
+    "0" = "template_wsubnetc1_priv"
+    "1" = "template_wsubnetd1_priv"
+  }
+}
+
+variable "private_ips" {
+  description = "Define private_ips"
+  default = {
+    "0" = "10.0.1.22"
+    "1" = "10.0.1.23"
   }
 }
 
@@ -48,7 +60,7 @@ variable "vpc_cidr" {
 }
 
 variable "public_cidr" {
-  description = "CIDR for the private subnet"
+  description = "CIDR for the public subnet"
   default     = "10.0.1.0/24"
 }
 

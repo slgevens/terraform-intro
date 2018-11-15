@@ -1,4 +1,8 @@
 ## print dns
-output "str" {
-  value = "${aws_instance.stretch.*.public_dns}"
+output "public" {
+  value = "${aws_instance.stretch_public.*.public_dns}"
+}
+## print dns
+output "private" {
+  value = "${aws_instance.stretch_private.*.private_ip}"
 }
