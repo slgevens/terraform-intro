@@ -44,8 +44,8 @@ variable "hostname_private" {
 variable "private_ips" {
   description = "Define private_ips"
   default = {
-    "0" = "10.0.1.22"
-    "1" = "10.0.1.23"
+    "0" = "10.0.2.22"
+    "1" = "10.0.2.23"
   }
 }
 
