@@ -5,6 +5,7 @@ resource "aws_instance" "stretch_public" {
   count                       = "${length(var.hostname)}"
   subnet_id                   = "${aws_subnet.tf_template_wsubnet_pub_subnet.id}"
   associate_public_ip_address = true
+  private_ip                  = "${var.private_ips[count.index]}"
   source_dest_check           = false
   vpc_security_group_ids      = ["${aws_security_group.tf_template_wsubnet_sg_subnet.id}"]
 
@@ -32,7 +33,7 @@ resource "aws_instance" "stretch_private" {
   count                       = "${length(var.hostname_private)}"
   subnet_id                   = "${aws_subnet.tf_template_wsubnet_priv_subnet.id}"
   source_dest_check           = false
-  private_ip                  = "${var.private_ips[count.index]}"
+  private_ip                  = "${var.private_private_ips[count.index]}"
   vpc_security_group_ids      = ["${aws_security_group.tf_template_wsubnet_sg_default.id}"]
 
   tags = {
