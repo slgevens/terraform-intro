@@ -35,7 +35,7 @@ resource "aws_instance" "stretch_private" {
   source_dest_check           = false
   private_ip                  = "${var.private_private_ips[count.index]}"
   vpc_security_group_ids      = ["${aws_security_group.tf_template_wsubnet_sg_default.id}"]
-
+  depends_on                  = ["aws_nat_gateway.tf_template_wsubnet_nat_gateway"]
   tags = {
     Name = "${var.hostname_private[count.index]}"
   }
